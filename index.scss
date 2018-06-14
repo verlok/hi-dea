@@ -7,6 +7,9 @@
 	}
 }
 
+$numberOfWheels: 9;
+$numberOfItems: 4;
+
 body {
 	margin: 0;
 }
@@ -36,112 +39,55 @@ ul {
 		animation: spin 2s infinite linear running;
 		transition: transform 1s;
 
-		@for $i from 0 through 9 - 1 {
-			&--1 {
-				animation-duration: 4s;
-				animation-direction: reverse;
+		.stop & {
+			animation-play-state: paused;
+		}
+
+		@for $i from 0 through $numberOfWheels - 1 {
+			&--#{$i} {
+				width: calc(100% - #{$i}em * 2);
+				left: #{$i}em;
 			}
-			&--2 {
-				animation-duration: 12s;
-			}
-			&--3 {
-				animation-duration: 10s;
-			}
-			&--4 {
-				animation-duration: 3s;
-				animation-direction: reverse;
-			}
-			&--5 {
-				animation-duration: 8s;
-			}
-			&--6 {
-				animation-duration: 11s;
-				animation-direction: reverse;
-			}
-			&--7 {
-				animation-duration: 7s;
-				animation-direction: reverse;
-			}
-			&--8 {
-				animation-duration: 9s;
-			}
-			&--9 {
-				animation-duration: 5s;
-			}
+		}
+
+		&--1 {
+			animation-duration: 4s;
+			animation-direction: reverse;
+		}
+		&--2 {
+			animation-duration: 12s;
+		}
+		&--3 {
+			animation-duration: 10s;
+		}
+		&--4 {
+			animation-duration: 3s;
+			animation-direction: reverse;
+		}
+		&--5 {
+			animation-duration: 8s;
+		}
+		&--6 {
+			animation-duration: 11s;
+			animation-direction: reverse;
+		}
+		&--7 {
+			animation-duration: 7s;
+			animation-direction: reverse;
+		}
+		&--8 {
+			animation-duration: 9s;
+		}
+		&--9 {
+			animation-duration: 5s;
 		}
 	}
 
 	&__item {
-		&--portfolio {
-			//color: blue;
-			$numberOfLetters: 9;
-			$degOffset: 360deg / $numberOfLetters;
-			--startDeg: #{0deg + 90deg * 0};
-			--endDeg: #{360deg + 90deg * 0};
-			& > .siteMenu__letter {
-				@for $i from 0 through $numberOfLetters - 1 {
-					&--#{$i} {
-						width: calc(100% - #{$i}em * 2);
-						left: #{$i}em;
-						.stop & {
-							animation-play-state: paused;
-						}
-					}
-				}
-			}
-		}
-		&--contact {
-			//color: red;
-			$numberOfLetters: 7;
-			$degOffset: 360deg / $numberOfLetters;
-			--startDeg: #{0deg + 90deg * 1};
-			--endDeg: #{360deg + 90deg * 1};
-			& > .siteMenu__letter {
-				@for $i from 0 through $numberOfLetters - 1 {
-					&--#{$i} {
-						width: calc(100% - #{$i}em * 2);
-						left: #{$i}em;
-						.stop & {
-							animation-play-state: paused;
-						}
-					}
-				}
-			}
-		}
-		&--about {
-			//color: red;
-			$numberOfLetters: 5;
-			$degOffset: 360deg / $numberOfLetters;
-			--startDeg: #{0deg + 90deg * 2};
-			--endDeg: #{360deg + 90deg * 2};
-			& > .siteMenu__letter {
-				@for $i from 0 through $numberOfLetters - 1 {
-					&--#{$i} {
-						width: calc(100% - #{$i}em * 2);
-						left: #{$i}em;
-						.stop & {
-							animation-play-state: paused;
-						}
-					}
-				}
-			}
-		}
-		&--clients {
-			//color: red;
-			$numberOfLetters: 7;
-			$degOffset: 360deg / $numberOfLetters;
-			--startDeg: #{0deg + 90deg * 3};
-			--endDeg: #{360deg + 90deg * 3};
-			& > .siteMenu__letter {
-				@for $i from 0 through $numberOfLetters - 1 {
-					&--#{$i} {
-						width: calc(100% - #{$i}em * 2);
-						left: #{$i}em;
-						.stop & {
-							animation-play-state: paused;
-						}
-					}
-				}
+		@for $i from 0 through $numberOfItems - 1 {
+			&--#{$i} {
+				--startDeg: #{0deg + 90deg * $i};
+				--endDeg: #{360deg + 90deg * $i};
 			}
 		}
 	}
