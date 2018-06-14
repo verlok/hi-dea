@@ -6,9 +6,10 @@ function toggleAnimation() {
 	documentElement.classList.toggle("stop");
 }
 
-function transformTo0(letters) {
+function transformToStart(letters) {
 	for (var i = 0; i < letters.length; i++) {
 		var letter = letters[i];
+		var startDeg = letter.style.getPropertyValue("--startDeg");
 		letter.style.transform = "rotate(0deg)";
 	}
 }
@@ -22,7 +23,7 @@ function transitionTo0(letters) {
 		//letter.style.transform = "rotate(0deg)"; --> needs to be pushed back in time
 	}
 	setTimeout(function() {
-		transformTo0(letters);
+		transformToStart(letters);
 	}, 100);
 }
 
