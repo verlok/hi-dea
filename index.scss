@@ -1,0 +1,79 @@
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.siteMenu {
+	max-width: 100vh;
+	position: relative;
+	left: 10%;
+	top: 50vh;
+	width: 80%;
+
+	&__item {
+		&__letter {
+			display: block;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			animation: spin 2s infinite linear running;
+			transition: transform 1s;
+		}
+	}
+
+	&__portfolio {
+		$numberOfLetters: 9;
+		$degOffset: 360deg / $numberOfLetters;
+		@for $i from 1 through $numberOfLetters {
+			&--#{$i} {
+				--startDeg: 0deg;
+				--endDeg: 360deg;
+				width: calc(100% - #{$i}em * 2);
+				left: #{$i}em;
+				.stop & {
+					animation-play-state: paused;
+				}
+			}
+		}
+		&--1 {
+			animation-duration: 4s;
+			animation-direction: reverse;
+		}
+		&--2 {
+			animation-duration: 12s;
+		}
+		&--3 {
+			animation-duration: 10s;
+		}
+		&--4 {
+			animation-duration: 3s;
+			animation-direction: reverse;
+		}
+		&--5 {
+			animation-duration: 8s;
+		}
+		&--6 {
+			animation-duration: 11s;
+			animation-direction: reverse;
+		}
+		&--7 {
+			animation-duration: 7s;
+			animation-direction: reverse;
+		}
+		&--8 {
+			animation-duration: 9s;
+		}
+		&--9 {
+			animation-duration: 5s;
+		}
+	}
+}
