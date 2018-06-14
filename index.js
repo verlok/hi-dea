@@ -16,8 +16,10 @@ function transformTo0(letters) {
 function transitionTo0(letters) {
 	for (var i = 0; i < letters.length; i++) {
 		var letter = letters[i];
-		letter.style.transform = getComputedStyle(letter).transform;
-		letter.style.animationName = "none";
+		var style = letter.style;
+		style.transform = getComputedStyle(letter).transform;
+		style.animationName = "none";
+		//letter.style.transform = "rotate(0deg)"; --> needs to be pushed back in time
 	}
 	setTimeout(function() {
 		transformTo0(letters);
