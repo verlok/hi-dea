@@ -7,17 +7,26 @@
 	}
 }
 
+body {
+	margin: 0;
+}
+
+.buttonBar {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+}
+
 ul {
 	list-style-type: none;
 	padding: 0;
+	margin: 0;
 }
 
 .siteMenu {
 	max-width: 100vh;
 	position: relative;
-	left: 10%;
-	top: 50vh;
-	width: 80%;
+	top: calc(50vh - 10px);
 
 	&__letter {
 		display: block;
@@ -27,7 +36,7 @@ ul {
 		animation: spin 2s infinite linear running;
 		transition: transform 1s;
 
-		@for $i from 1 through 9 {
+		@for $i from 0 through 9 - 1 {
 			&--1 {
 				animation-duration: 4s;
 				animation-direction: reverse;
@@ -67,10 +76,10 @@ ul {
 			//color: blue;
 			$numberOfLetters: 9;
 			$degOffset: 360deg / $numberOfLetters;
-			--startDeg: 0deg;
-			--endDeg: 360deg;
+			--startDeg: #{0deg + 90deg * 0};
+			--endDeg: #{360deg + 90deg * 0};
 			& > .siteMenu__letter {
-				@for $i from 1 through $numberOfLetters {
+				@for $i from 0 through $numberOfLetters - 1 {
 					&--#{$i} {
 						width: calc(100% - #{$i}em * 2);
 						left: #{$i}em;
@@ -85,10 +94,46 @@ ul {
 			//color: red;
 			$numberOfLetters: 7;
 			$degOffset: 360deg / $numberOfLetters;
-			--startDeg: 45deg;
-			--endDeg: 405deg;
+			--startDeg: #{0deg + 90deg * 1};
+			--endDeg: #{360deg + 90deg * 1};
 			& > .siteMenu__letter {
-				@for $i from 1 through $numberOfLetters {
+				@for $i from 0 through $numberOfLetters - 1 {
+					&--#{$i} {
+						width: calc(100% - #{$i}em * 2);
+						left: #{$i}em;
+						.stop & {
+							animation-play-state: paused;
+						}
+					}
+				}
+			}
+		}
+		&--about {
+			//color: red;
+			$numberOfLetters: 5;
+			$degOffset: 360deg / $numberOfLetters;
+			--startDeg: #{0deg + 90deg * 2};
+			--endDeg: #{360deg + 90deg * 2};
+			& > .siteMenu__letter {
+				@for $i from 0 through $numberOfLetters - 1 {
+					&--#{$i} {
+						width: calc(100% - #{$i}em * 2);
+						left: #{$i}em;
+						.stop & {
+							animation-play-state: paused;
+						}
+					}
+				}
+			}
+		}
+		&--clients {
+			//color: red;
+			$numberOfLetters: 7;
+			$degOffset: 360deg / $numberOfLetters;
+			--startDeg: #{0deg + 90deg * 3};
+			--endDeg: #{360deg + 90deg * 3};
+			& > .siteMenu__letter {
+				@for $i from 0 through $numberOfLetters - 1 {
 					&--#{$i} {
 						width: calc(100% - #{$i}em * 2);
 						left: #{$i}em;

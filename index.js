@@ -1,7 +1,15 @@
 import "./index.scss";
 
-var $body = $("body");
+var $body = $(document);
 var animationIsStarted = true;
+var numberOfWheels = 9;
+var numberOfItems = document.querySelector(".siteMenu > ul").children.length;
+var degreesStep = 360 / numberOfItems;
+
+var wheels = [];
+for (var i = 0; i < numberOfWheels; i++) {
+	wheels[i] = document.querySelectorAll(".siteMenu__letter--" + i);
+}
 
 function startAnimation() {
 	$body.removeClass("stop");
@@ -13,24 +21,17 @@ function stopAnimation() {
 	animationIsStarted = false;
 }
 
-function rotateTo(letters, degrees) {
-	//debugger;
-	for (var i = 0; i < letters.length; i++) {
-		var letter = letters[i];
-		letter.style.transform = "rotate(" + degrees + "deg)";
-	}
+function rotateTo(letter, degrees) {
+	letter.style.transform = "rotate(" + degrees + "deg)";
 }
 
-function transitionTo(letters, degrees) {
-	for (var i = 0; i < letters.length; i++) {
-		var letter = letters[i];
-		var style = letter.style;
-		style.transform = getComputedStyle(letter).transform;
-		style.animationName = "none";
-		//letter.style.transform = "rotate(0deg)"; --> needs to be pushed back in time
-	}
+function transitionTo(letter, degrees) {
+	var style = letter.style;
+	style.transform = getComputedStyle(letter).transform;
+	style.animationName = "none";
+
 	setTimeout(function() {
-		rotateTo(letters, degrees);
+		rotateTo(letter, degrees);
 	}, 100);
 }
 
@@ -41,25 +42,34 @@ function resetStyle(letters) {
 	}
 }
 
-var degreesDictionary = {
-	portfolio: 0,
-	contact: 45
-};
-
-function buttonsClickHandler() {
-	var itemToHighlight = this.getAttribute("data-item");
-	var degrees = degreesDictionary[itemToHighlight];
-	var letters = document.querySelectorAll(
-		".siteMenu__item--" + itemToHighlight + " > .siteMenu__letter"
-	);
-
-	if (animationIsStarted) {
-		stopAnimation();
-		transitionTo(letters, degrees);
-	} else {
-		startAnimation();
-		resetStyle(letters);
+function rotateWheelsTo(degrees) {
+	for (var i = 0; i < numberOfWheels; i++) {
+		var wheel = wheels[i];
+		for (var j = 0; j < numberOfItems; j++) {
+			var itemLetter = wheel[j]; //P, C, A, C
+			if (!!itemLetter) {
+				transitionTo(itemLetter, degrees - j * degreesStep);
+			}
+		}
 	}
 }
 
-$(document).on("click", "button", buttonsClickHandler);
+function buttonsClickHandler(e) {
+	// Cases
+	// portfolio clicked --> rotate all wheels to 0
+	// clients clicked --> rotate all wheels to -90
+	var itemIndexToHighlight, degrees;
+
+	if (animationIsStarted) {
+		stopAnimation();
+		itemIndexToHighlight = e.target.getAttribute("data-index");
+		degrees = -itemIndexToHighlight * degreesStep;
+		rotateWheelsTo(degrees);
+	} else {
+		startAnimation();
+		var allLetters = document.querySelectorAll("menuItem__letter");
+		resetStyle(allLetters);
+	}
+}
+
+$body.on("click", "button", buttonsClickHandler);
