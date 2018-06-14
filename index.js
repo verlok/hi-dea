@@ -1,20 +1,27 @@
 import "./index.scss";
 
-var documentElement = document.documentElement;
+var $body = $("body");
+var animationIsStarted = true;
 
-function toggleAnimation() {
-	documentElement.classList.toggle("stop");
+function startAnimation() {
+	$body.removeClass("stop");
+	animationIsStarted = true;
 }
 
-function transformToStart(letters) {
+function stopAnimation() {
+	$body.removeClass("stop");
+	animationIsStarted = false;
+}
+
+function rotateTo(letters, degrees) {
+	//debugger;
 	for (var i = 0; i < letters.length; i++) {
 		var letter = letters[i];
-		var startDeg = letter.style.getPropertyValue("--startDeg");
-		letter.style.transform = "rotate(0deg)";
+		letter.style.transform = "rotate(" + degrees + "deg)";
 	}
 }
 
-function transitionTo0(letters) {
+function transitionTo(letters, degrees) {
 	for (var i = 0; i < letters.length; i++) {
 		var letter = letters[i];
 		var style = letter.style;
@@ -23,7 +30,7 @@ function transitionTo0(letters) {
 		//letter.style.transform = "rotate(0deg)"; --> needs to be pushed back in time
 	}
 	setTimeout(function() {
-		transformToStart(letters);
+		rotateTo(letters, degrees);
 	}, 100);
 }
 
@@ -34,16 +41,25 @@ function resetStyle(letters) {
 	}
 }
 
-document.querySelector("button").addEventListener("click", function(e) {
+var degreesDictionary = {
+	portfolio: 0,
+	contact: 45
+};
+
+function buttonsClickHandler() {
+	var itemToHighlight = this.getAttribute("data-item");
+	var degrees = degreesDictionary[itemToHighlight];
 	var letters = document.querySelectorAll(
-		".siteMenu__item .siteMenu__item__letter"
+		".siteMenu__item--" + itemToHighlight + " > .siteMenu__letter"
 	);
 
-	if (!documentElement.classList.contains("stop")) {
-		toggleAnimation();
-		transitionTo0(letters);
+	if (animationIsStarted) {
+		stopAnimation();
+		transitionTo(letters, degrees);
 	} else {
-		toggleAnimation();
+		startAnimation();
 		resetStyle(letters);
 	}
-});
+}
+
+$(document).on("click", "button", buttonsClickHandler);
