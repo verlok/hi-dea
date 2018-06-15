@@ -73,32 +73,34 @@ body {
 			animation-duration: 12s;
 		}
 		&--1 {
-			animation-duration: 5s;
-			animation-direction: reverse;
+			animation-duration: 6s;
 		}
 		&--2 {
 			animation-duration: 12s;
 		}
 		&--3 {
-			animation-duration: 10s;
+			animation-duration: 4s;
 		}
 		&--4 {
-			animation-duration: 3s;
-			animation-direction: reverse;
+			animation-duration: 10s;
 		}
 		&--5 {
 			animation-duration: 8s;
 		}
 		&--6 {
 			animation-duration: 11s;
-			animation-direction: reverse;
 		}
 		&--7 {
 			animation-duration: 7s;
-			animation-direction: reverse;
 		}
 		&--8 {
 			animation-duration: 9s;
+		}
+		&--1,
+		&--4,
+		&--6,
+		&--7 {
+			animation-direction: reverse;
 		}
 	}
 }
