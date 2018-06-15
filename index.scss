@@ -50,13 +50,16 @@ body {
 		position: absolute;
 		top: calc(10em - 9px);
 		width: 100%;
+		&.highlighted {
+			text-shadow: 0 0 10px white, 0 0 10px white;
+		}
 	}
 	&__letter {
 		display: block;
 		position: absolute;
 		top: 0;
 		animation: spin 2s infinite linear running;
-		transition: transform 2s;
+		transition: transform 1s, text-shadow 0.5s 1s;
 		.stop & {
 			animation-play-state: paused;
 		}

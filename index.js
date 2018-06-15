@@ -1,7 +1,6 @@
 import "./index.scss";
 
 var $body = $(document);
-var animationIsPlaying = true;
 var numberOfWheels = 9;
 var numberOfItems = document.querySelector(".siteMenu > ul").children.length;
 var degreesStep = 360 / numberOfItems;
@@ -13,17 +12,15 @@ for (var i = 0; i < numberOfWheels; i++) {
 
 function startAnimation() {
 	$body.removeClass("stop");
-	animationIsPlaying = true;
 }
 
 function stopAnimation() {
 	$body.removeClass("stop");
-	animationIsPlaying = false;
 }
 
 function rotateToStartDeg(letter, offsetDeg) {
 	letter.style.transform =
-		"rotate(calc(var(--startDeg) + " + offsetDeg + "deg))";
+		"rotate(calc(var(--startDeg) - " + offsetDeg + "deg))";
 }
 
 function resetStyle(letters) {
@@ -55,15 +52,26 @@ function rotateWheelsToStartDeg(offsetDeg) {
 	}
 }
 
+function highlightItem(index) {
+	$(".siteMenu__item--" + index).addClass("highlighted");
+}
+
+function deHighlightItems() {
+	$(".highlighted").removeClass("highlighted");
+}
+
 function buttonsClickHandler(e) {
 	var itemIndexToHighlight = e.target.getAttribute("data-index");
 
 	if (itemIndexToHighlight > -1) {
 		stopAnimation();
 		var degrees = itemIndexToHighlight * degreesStep;
+		deHighlightItems();
+		highlightItem(itemIndexToHighlight);
 		rotateWheelsToStartDeg(degrees);
 	} else {
 		startAnimation();
+		deHighlightItems();
 		var allLetters = document.querySelectorAll(".siteMenu__letter");
 		resetStyle(allLetters);
 	}
