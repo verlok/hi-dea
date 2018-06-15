@@ -12,6 +12,7 @@ $numberOfItems: 4;
 
 body {
 	margin: 0;
+	font-family: sans-serif;
 }
 
 .buttonBar {
@@ -27,31 +28,50 @@ ul {
 }
 
 .siteMenu {
-	max-width: 100vh;
-	position: relative;
-	top: calc(50vh - 10px);
-
+	margin: 4em 1em;
+	width: 20em;
+	height: 20em;
+	border-radius: 10em;
+	color: white;
+	background: repeating-radial-gradient(
+		circle,
+		#0065f6,
+		#0065f6 1em,
+		#0084fc 1em,
+		#0084fc 2em
+	);
+	ul {
+		position: relative;
+	}
+	&__item {
+		@for $i from 0 through $numberOfItems - 1 {
+			&--#{$i} {
+				--startDeg: #{0deg + 90deg * $i};
+				--endDeg: #{360deg + 90deg * $i};
+			}
+		}
+	}
 	&__letter {
 		display: block;
 		position: absolute;
-		top: 0;
+		top: calc(10em - 9px);
 		width: 100%;
 		animation: spin 2s infinite linear running;
 		transition: transform 1s;
-
 		.stop & {
 			animation-play-state: paused;
 		}
-
 		@for $i from 0 through $numberOfWheels - 1 {
 			&--#{$i} {
 				width: calc(100% - #{$i}em * 2);
 				left: #{$i}em;
 			}
 		}
-
+		&--0 {
+			animation-duration: 12s;
+		}
 		&--1 {
-			animation-duration: 4s;
+			animation-duration: 5s;
 			animation-direction: reverse;
 		}
 		&--2 {
@@ -77,18 +97,6 @@ ul {
 		}
 		&--8 {
 			animation-duration: 9s;
-		}
-		&--9 {
-			animation-duration: 5s;
-		}
-	}
-
-	&__item {
-		@for $i from 0 through $numberOfItems - 1 {
-			&--#{$i} {
-				--startDeg: #{0deg + 90deg * $i};
-				--endDeg: #{360deg + 90deg * $i};
-			}
 		}
 	}
 }
