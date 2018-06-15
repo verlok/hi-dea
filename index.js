@@ -1,7 +1,7 @@
 import "./index.scss";
 
 var $body = $(document);
-var animationIsStarted = true;
+var animationIsPlaying = true;
 var numberOfWheels = 9;
 var numberOfItems = document.querySelector(".siteMenu > ul").children.length;
 var degreesStep = 360 / numberOfItems;
@@ -13,26 +13,17 @@ for (var i = 0; i < numberOfWheels; i++) {
 
 function startAnimation() {
 	$body.removeClass("stop");
-	animationIsStarted = true;
+	animationIsPlaying = true;
 }
 
 function stopAnimation() {
 	$body.removeClass("stop");
-	animationIsStarted = false;
+	animationIsPlaying = false;
 }
 
-function rotateTo(letter, degrees) {
-	letter.style.transform = "rotate(" + degrees + "deg)";
-}
-
-function transitionTo(letter, degrees) {
-	var style = letter.style;
-	style.transform = getComputedStyle(letter).transform;
-	style.animationName = "none";
-
-	setTimeout(function() {
-		rotateTo(letter, degrees);
-	}, 100);
+function rotateToStartDeg(letter, offsetDeg) {
+	letter.style.transform =
+		"rotate(calc(var(--startDeg) + " + offsetDeg + "deg))";
 }
 
 function resetStyle(letters) {
@@ -42,32 +33,38 @@ function resetStyle(letters) {
 	}
 }
 
-function rotateWheelsTo(degrees) {
+function transitionToStartDeg(letter, offsetDeg) {
+	var style = letter.style;
+	style.transform = getComputedStyle(letter).transform;
+	style.animationName = "none";
+
+	setTimeout(function() {
+		rotateToStartDeg(letter, offsetDeg);
+	}, 100);
+}
+
+function rotateWheelsToStartDeg(offsetDeg) {
 	for (var i = 0; i < numberOfWheels; i++) {
 		var wheel = wheels[i];
 		for (var j = 0; j < numberOfItems; j++) {
 			var itemLetter = wheel[j]; //P, C, A, C
 			if (!!itemLetter) {
-				transitionTo(itemLetter, degrees - j * degreesStep);
+				transitionToStartDeg(itemLetter, offsetDeg);
 			}
 		}
 	}
 }
 
 function buttonsClickHandler(e) {
-	// Cases
-	// portfolio clicked --> rotate all wheels to 0
-	// clients clicked --> rotate all wheels to -90
-	var itemIndexToHighlight, degrees;
+	var itemIndexToHighlight = e.target.getAttribute("data-index");
 
-	if (animationIsStarted) {
+	if (itemIndexToHighlight > -1) {
 		stopAnimation();
-		itemIndexToHighlight = e.target.getAttribute("data-index");
-		degrees = -itemIndexToHighlight * degreesStep;
-		rotateWheelsTo(degrees);
+		var degrees = itemIndexToHighlight * degreesStep;
+		rotateWheelsToStartDeg(degrees);
 	} else {
 		startAnimation();
-		var allLetters = document.querySelectorAll("menuItem__letter");
+		var allLetters = document.querySelectorAll(".siteMenu__letter");
 		resetStyle(allLetters);
 	}
 }
